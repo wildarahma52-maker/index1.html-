@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Profesional | Hayatun Nufus</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #3b82f6;
+            --bg-color: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* --- AKSES PERSETUJUAN (MODAL) --- */
+        #access-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.98);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .access-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 450px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .btn-access {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        /* --- MAIN CONTENT --- */
+        #main-content { display: none; }
+
+        nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .hero {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            padding-top: 80px;
+        }
+
+        .profile-img-container {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 5px solid white;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: #e2e8f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-img-container img { width: 100%; height: 100%; object-fit: cover; }
+
+        section { padding: 80px 10%; }
+        .section-title { text-align: center; margin-bottom: 40px; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .card {
+            background: var(--white); padding: 30px; border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: 0.5s;
+            opacity: 0; transform: translateY(30px);
+        }
+        .card.visible { opacity: 1; transform: translateY(0); }
+
+        .timeline-item {
+            padding: 15px 25px; border-left: 3px solid var(--primary-color);
+            background: white; margin-bottom: 15px; border-radius: 0 10px 10px 0;
+        }
+
+        /* --- UPLOAD FOTO SECTION --- */
+        .upload-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f1f5f9;
+            border: 2px dashed #cbd5e1;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        #preview-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .preview-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-upload {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        footer { text-align: center; padding: 40px; background: #1e293b; color: white; }
+    </style>
+</head>
+<body>
+
+    <div id="access-overlay">
+        <div class="access-card">
+            <i class="fas fa-lock" style="font-size: 50px; color: var(--primary-color); margin-bottom: 20px;"></i>
+            <h2>Konfirmasi Akses</h2>
+            <p>Klik tombol di bawah untuk melihat profil lengkap dan data pribadi <strong>Hayatun Nufus</strong>.</p>
+            <button class="btn-access" onclick="grantAccess()">Setuju & Masuk</button>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <nav>
+            <div style="font-weight: bold; color: var(--primary-color);">PORTFOLIO</div>
+            <div style="display: flex; gap: 20px;">
+                <a href="#biodata" style="text-decoration: none; color: var(--text-dark);">Profil</a>
+                <a href="#pendidikan" style="text-decoration: none; color: var(--text-dark);">Pendidikan</a>
+                <a href="#pengalaman" style="text-decoration: none; color: var(--text-dark);">Pengalaman</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="profile-img-container">
+                <img src="C:\Users\USER\Downloads\WhatsApp Image 2026-04-04 at 16.28.24.jpeg" alt="Foto Profil">
+            </div>
+            <h1>Hayatun Nufus</h1>
+            <p>Mahasiswa S1 Teknik Informatika | Universitas Jabal Ghafur</p>
+        </section>
+
+        <section id="biodata">
+            <div class="section-title"><h2>Data Pribadi</h2></div>
+            <div class="grid">
+                <div class="card scroll-anim">
+                    <h3>Identitas </h3>
+                    <p><strong>Nama:</strong> Hayatun Nufus </p>
+                    <p><strong>Lahir:</strong> Sigli, 03 04 2006 </p>
+                    <p><strong>Alamat:</strong> Desa Meuyub Lala, Mila </p>
+                </div>
+                <div class="card scroll-anim">
+                    <h3>Status Kuliah </h3>
+                    <p>Mahasiswa aktif di <strong>Universitas Jabal Ghafur</strong>, Fakultas Teknik Informatika S1.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="pendidikan" style="background: #f1f5f9;">
+            <div class="section-title"><h2>Pendidikan [cite: 17]</h2></div>
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div class="timeline-item scroll-anim"><h4>SMK BP Sirajul Huda Al - Aziziyah [cite: 21]</h4></div>
+                <div class="timeline-item scroll-anim"><h4>SMP Negeri 2 Mila [cite: 20]</h4></div>
+                <div class="timeline-item scroll-anim"><h4>SD Negeri 2 Mila [cite: 19]</h4></div>
+                <div class="timeline-item scroll-anim"><h4>TK Atiyah Langsa Kota [cite: 18]</h4></div>
+            </div>
+        </section>
+
+        <section id="pengalaman">
+            <div class="section-title"><h2>Pengalaman [cite: 22]</h2></div>
+            <div class="grid">
+                <div class="card scroll-anim">
+                    <i class="fas fa-trophy" style="color: gold;"></i>
+                    <p>Juara 1 Cerdas Cermat di Pondok Pesantren.</p>
+                </div>
+                <div class="card scroll-anim">
+                    <i class="fas fa-microphone" style="color: var(--primary-color);"></i>
+                    <p>Juara 3 Pidato Antar Pondok Pesantren.</p>
+                </div>
+                <div class="card scroll-anim">
+                    <i class="fas fa-volleyball-ball" style="color: #ef4444;"></i>
+                    <p>Lomba Bola Voly Antar SMP.</p>
+                </div>
+            </div>
+
+            <div class="C:\Users\Admin\OneDrive\Documents\foto nupus .jpeg">
+                <h3>Unggah Foto Pengalaman</h3>
+                <p>Tambahkan foto dokumentasi atau sertifikat Anda di bawah ini.</p>
+                <input type="file" id="image-upload" accept="image/*" multiple style="display: none;">
+                <label for="image-upload" class="btn-upload">Pilih Foto</label>
+                <div id="preview-gallery"></div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 🌸2026 Hayatun Nufus🌸.</p>
+        </footer>
+    </div>
+
+    <script>
+        function grantAccess() {
+            document.getElementById('access-overlay').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            initObserver();
+        }
+
+        // Preview Foto Upload
+        const uploadInput = document.getElementById('image-upload');
+        const gallery = document.getElementById('preview-gallery');
+
+        uploadInput.addEventListener('change', function() {
+            const files = this.files;
+            for(let i=0; i<files.length; i++) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'preview-img';
+                    gallery.appendChild(img);
+                }
+                reader.readAsDataURL(files[i]);
+            }
+        });
+
+        function initObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.scroll-anim').forEach(el => observer.observe(el));
+        }
+    </script>
+</body>
+</html>
